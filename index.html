@@ -1,641 +1,238 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopify Panamá</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro / Inicio de sesión</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 20px;
       margin: 0;
-    }
-    .form-container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      width: 320px;
-      margin: auto;
-    }
-    h2 {
-      text-align: center;
-      color: #232f3e;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-    input[type="text"], input[type="email"] {
-      width: 100%;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      margin-bottom: 20px;
-    }
-    .telefono-container {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1a1a1a;
       display: flex;
+      justify-content: center;
       align-items: center;
-      margin-bottom: 20px;
-    }
-    .prefijo {
-      font-weight: bold;
-      margin-right: 5px;
-      white-space: nowrap;
-    }
-    input[type="submit"], button[type="button"] {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      padding: 10px;
-      border-radius: 4px;
-      margin-top: 10px;
-    }
-    input[type="submit"]:hover, button[type="button"]:hover {
-      background-color: #218838;
-    }
-    #codigo-verificacion {
-      margin-top: 10px;
-    }
-    .error {
-      color: red;
-      font-size: 12px;
-    }
-    #tienda {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
       height: 100vh;
-      z-index: 9999;
-      background-color: #f4f4f4;
-      overflow-y: auto;
     }
-    #volver {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 10000;
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    header {
-      background-color: #232f3e;
-      color: white;
-      padding: 1em;
+
+    .modal {
+      background: linear-gradient(to bottom right, #ffffff, #c0c0c0);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 400px;
+      padding: 30px 25px;
       text-align: center;
       position: relative;
+      box-sizing: border-box;
     }
-    .cart-icon-container {
+
+    .modal img.logo {
+      width: 325px;
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .modal h2 {
+      margin: 10px 0;
+      font-size: 22px;
+      color: #000;
+    }
+
+    .info-protected {
       display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      border-radius: 20px;
+      background: linear-gradient(to right, #ffffff, #c0c0c0);
+      color: #000;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #999;
+      border-radius: 8px;
+      background-color: #f7f7f7;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .password-container {
       position: relative;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .password-container input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      border: 1px solid #999;
+      border-radius: 8px;
+      background-color: #f7f7f7;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    .password-container img {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
       cursor: pointer;
-      margin-left: 10px;
     }
-    .cart-icon {
-      font-size: 24px;
+
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #333;
+    }
+
+    .divider {
+      margin: 20px 0;
+      border-top: 1px solid #999;
       position: relative;
     }
-    .cart-badge {
+
+    .divider::after {
+      content: "Registro Rápido Con";
       position: absolute;
       top: -10px;
-      right: -10px;
-      background-color: #ff0000;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, #ffffff, #c0c0c0);
+      padding: 0 10px;
       font-size: 12px;
-      font-weight: bold;
+      color: #000;
+      border-radius: 20px;
     }
-    .search-bar {
+
+    .social-icons {
       display: flex;
-      justify-content: center;
-      margin: 1em;
+      justify-content: space-around;
+      margin: 15px 0;
     }
-    .search-bar input {
-      width: 50%;
-      padding: 0.5em;
-      font-size: 1em;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1em;
-      padding: 1em;
-    }
-    .product {
-      background-color: white;
-      padding: 1em;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .product:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .product img {
-      width: 100%;
-      height: 150px;
-      object-fit: contain;
-      transition: transform 0.3s;
-    }
-    .product:hover img {
-      transform: scale(1.05);
-    }
-    .product h3 {
-      font-size: 1.1em;
-      margin: 0.5em 0;
-    }
-    .product p {
-      color: #b12704;
-      font-weight: bold;
-    }
-    .product button {
-      background-color: #ffa41c;
-      border: none;
-      padding: 0.5em 1em;
-      border-radius: 4px;
+
+    .social-icons img {
+      width: 32px;
+      height: 32px;
       cursor: pointer;
-      margin-top: 0.5em;
+      transition: transform 0.2s;
     }
-    .product button:hover {
-      background-color: #f08804;
+
+    .social-icons img:hover {
+      transform: scale(1.1);
     }
-    #cart {
-      background-color: white;
-      padding: 1em;
-      margin: 1em;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    #cart h2 {
-      margin-top: 0;
-    }
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5em 0;
-      border-bottom: 1px solid #eee;
-    }
-    .checkout {
-      text-align: right;
-      margin-top: 1em;
-    }
-    .checkout button {
-      background-color: #28a745;
-      color: white;
-      padding: 0.5em 1em;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .checkout button:hover {
-      background-color: #218838;
-    }
-    #paypal-button {
-      background-color: #0070ba;
-      color: white;
-      padding: 10px;
-      width: 100%;
-      border-radius: 4px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-    #paypal-button:hover {
-      background-color: #005f8f;
-    }
-    #procesando {
-      display: none;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      color: #232f3e;
+
+    .location {
+      font-size: 12px;
+      color: #333;
       margin-top: 20px;
     }
-    /* Estilos para el control de cantidad */
-    .quantity-control {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .quantity-btn {
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      background: #f8f8f8;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .quantity-value {
-      min-width: 20px;
-      text-align: center;
-    }
-    .item-info {
-      flex: 1;
-    }
-    .item-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    /* Estilos para el sistema de valoración */
-    .rating {
-      color: #ffc107;
-      margin: 5px 0;
-      font-size: 0.9em;
-    }
-    .rating-value {
-      color: #6c757d;
-      font-size: 0.8em;
-    }
-    .star {
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .star:hover {
-      color: #ffc107;
+
+    .terms {
+      font-size: 11px;
+      color: #555;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
-<div class="form-container" id="formulario">
-  <h2>Formulario de Registro</h2>
-  <form id="userForm" action="#" method="post">
-    <label for="nombre">Nombre</label>
-    <input type="text" id="nombre" name="nombre" required>
+  <div class="modal">
+    <img class="logo" src="A KIDPHONE2.0.png" alt="Logo Kidphone" />
+    <h2>Regístrate/Inicia sesión</h2>
+    <div class="info-protected">Con Protección De Datos ✔</div>
 
-    <label for="apellido">Apellido</label>
-    <input type="text" id="apellido" name="apellido" required>
+    <input type="email" id="email" placeholder="Email o Número de teléfono" required />
 
-    <label for="correo">Correo Electrónico</label>
-    <input type="email" id="correo" name="correo" required>
-
-    <label for="telefono">Número Telefónico</label>
-    <div class="telefono-container">
-      <span class="prefijo">+507</span>
-      <input type="text" id="telefono" name="telefono" placeholder="6XXX-XXXX" maxlength="9" oninput="formatPhone()" required>
+    <div class="password-container">
+      <input type="password" id="password" placeholder="Contraseña" required />
+      <img src="Ojoc2.PNG" id="togglePassword" onclick="togglePassword()" />
     </div>
 
-    <div id="codigo-verificacion">
-      <label for="verificacion-correo">Código de Verificación por Correo:</label>
-      <input type="text" id="verificacion-correo" name="verificacion-correo" placeholder="Código recibido en tu correo" required>
+    <button class="btn-primary" onclick="acceder()">Continuar</button>
 
-      <label for="verificacion-sms">Código de Verificación por SMS:</label>
-      <input type="text" id="verificacion-sms" name="verificacion-sms" placeholder="Código recibido por SMS" required>
+    <div class="divider"></div>
 
-      <button type="button" onclick="enviarCodigo()">Enviar códigos de verificación</button>
+    <div class="social-icons">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/apple.svg" />
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/google.svg" />
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" />
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" />
     </div>
 
-    <input type="submit" value="Enviar">
-  </form>
-</div>
+    <div class="location">🌍 Localización: <strong>Panamá</strong></div>
 
-<div id="tienda">
-  <button id="volver" onclick="cerrarTienda()">Volver al formulario</button>
-  <header>
-    <h1>Mini Tienda Online</h1>
-  </header>
-
-  <div class="search-bar">
-    <input type="text" id="buscarProducto" placeholder="Buscar productos..." oninput="filtrarProductos()">
+    <div class="terms">
+      Al continuar aceptas nuestros términos.
+    </div>
   </div>
 
-  <section class="products" id="product-list">
-    <!-- Productos generados con JS -->
-  </section>
-
-  <section id="cart">
-    <h2>Carrito de Compras</h2>
-    <div id="cart-items"></div>
-    <div class="checkout">
-      <div class="cart-icon-container">
-        <div class="cart-icon">🛒
-          <span class="cart-badge" id="cart-badge">0</span>
-        </div>
-      </div>
-      <strong>Total: $<span id="total">0.00</span></strong><br>
-      <button onclick="checkout()">Proceder al pago</button>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" onsubmit="vaciarCarrito()">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="XXXXXXXXXXXXX">
-        <input type="submit" id="paypal-button" value="Pagar con PayPal">
-      </form>
-    </div>
-    <div id="procesando">Estamos procesando tu pedido...</div>
-  </section>
-</div>
-
 <script>
-  const productos = [
-    { 
-      nombre: "Producto 0", 
-      precio: 19.99, 
-      imagen: "imagenes/producto0.jpg",
-      rating: 4.0,
-      reviews: 24
-    },
-    { 
-      nombre: "Producto 1", 
-      precio: 19.99, 
-      imagen: "https://via.placeholder.com/200x150",
-      rating: 4.5,
-      reviews: 36
-    },
-    { 
-      nombre: "Producto 2", 
-      precio: 29.99, 
-      imagen: "https://via.placeholder.com/200x150",
-      rating: 3.8,
-      reviews: 15
-    },
-    { 
-      nombre: "Producto 3", 
-      precio: 15.50, 
-      imagen: "https://via.placeholder.com/200x150",
-      rating: 5.0,
-      reviews: 8
-    }
-  ];
+async function acceder() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  let groupedCart = {};
-
-  function formatPhone() {
-    let input = document.getElementById("telefono");
-    let telefono = input.value.replace(/\D/g, '');
-    if (telefono.length === 1 && telefono !== '6') telefono = '';
-    if (telefono.length > 8) telefono = telefono.substring(0, 8);
-    if (telefono.length > 4) telefono = telefono.substring(0, 4) + '-' + telefono.substring(4);
-    input.value = telefono;
+  if (!email || !password) {
+    alert("Por favor, completa todos los campos.");
+    return;
   }
 
-  function enviarCodigo() {
-    alert("Se ha enviado un código de verificación a tu correo y otro por SMS.");
-  }
-
-  function verificarCorreo() {
-    return document.getElementById('verificacion-correo').value === "123456";
-  }
-
-  function verificarSMS() {
-    return document.getElementById('verificacion-sms').value === "654321";
-  }
-
-  document.getElementById('userForm').onsubmit = function(event) {
-    event.preventDefault();
-    const telefono = document.getElementById('telefono').value;
-    const telefonoValido = /^6\d{3}-\d{4}$/.test(telefono);
-    if (!telefonoValido) return alert("El número telefónico debe tener formato 6XXX-XXXX");
-    if (!verificarCorreo()) return alert("Código de correo incorrecto.");
-    if (!verificarSMS()) return alert("Código SMS incorrecto.");
-
-    document.getElementById('formulario').style.display = 'none';
-    document.getElementById('tienda').style.display = 'block';
-    renderizarProductos();
-    updateCart();
-  }
-
-  function cerrarTienda() {
-    document.getElementById('tienda').style.display = 'none';
-    document.getElementById('formulario').style.display = 'block';
-  }
-
-  function renderizarProductos() {
-    const lista = document.getElementById('product-list');
-    lista.innerHTML = '';
-    productos.forEach((producto, index) => {
-      const div = document.createElement('div');
-      div.className = 'product';
-      
-      // Generar estrellas de valoración
-      const stars = generateStars(producto.rating);
-      
-      div.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}">
-        <h3>${producto.nombre}</h3>
-        <div class="rating">
-          ${stars}
-          <span class="rating-value">(${producto.rating.toFixed(1)}) ${producto.reviews} reseñas</span>
-        </div>
-        <p>$${producto.precio.toFixed(2)}</p>
-        <button onclick="addToCart('${producto.nombre}', ${producto.precio})">Añadir al carrito</button>
-      `;
-      lista.appendChild(div);
+  try {
+    const response = await fetch("http://localhost:5000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: "Usuario Web",
+        email: email,
+        password: password
+      })
     });
-  }
 
-  // Función para generar las estrellas de valoración
-  function generateStars(rating) {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    let starsHTML = '';
-    
-    // Estrellas llenas
-    for (let i = 0; i < fullStars; i++) {
-      starsHTML += '★';
-    }
-    
-    // Media estrella
-    if (hasHalfStar) {
-      starsHTML += '½';
-    }
-    
-    // Estrellas vacías
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    for (let i = 0; i < emptyStars; i++) {
-      starsHTML += '☆';
-    }
-    
-    return starsHTML;
-  }
+    const data = await response.json();
 
-  function addToCart(nombre, precio) {
-    cart.push({ nombre, precio });
-    updateCart();
-    saveCart();
-    
-    // Notificación
-    const notification = document.createElement('div');
-    notification.style.position = 'fixed';
-    notification.style.bottom = '20px';
-    notification.style.right = '20px';
-    notification.style.backgroundColor = '#28a745';
-    notification.style.color = 'white';
-    notification.style.padding = '10px 20px';
-    notification.style.borderRadius = '5px';
-    notification.style.zIndex = '10000';
-    notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-    notification.textContent = `¡${nombre} añadido al carrito!`;
-    
-    document.body.appendChild(notification);
-    setTimeout(() => {
-      notification.style.transition = 'opacity 0.5s';
-      notification.style.opacity = '0';
-      setTimeout(() => notification.remove(), 500);
-    }, 2000);
-  }
-
-  function updateCart() {
-    const items = document.getElementById('cart-items');
-    const total = document.getElementById('total');
-    const badge = document.getElementById('cart-badge');
-    
-    items.innerHTML = '';
-    let suma = 0;
-    let totalItems = 0;
-    
-    // Agrupa productos iguales
-    groupedCart = {};
-    cart.forEach(item => {
-      if (!groupedCart[item.nombre]) {
-        groupedCart[item.nombre] = {
-          ...item,
-          cantidad: 1,
-          subtotal: item.precio
-        };
-      } else {
-        groupedCart[item.nombre].cantidad++;
-        groupedCart[item.nombre].subtotal += item.precio;
-      }
-    });
-    
-    // Renderiza los items agrupados
-    Object.values(groupedCart).forEach((item, i) => {
-      suma += item.subtotal;
-      totalItems += item.cantidad;
-      
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <div class="item-info">
-          ${item.nombre} - $${item.precio.toFixed(2)} c/u
-        </div>
-        <div class="item-actions">
-          <div class="quantity-control">
-            <button class="quantity-btn" onclick="updateQuantity('${item.nombre}', -1)">-</button>
-            <span class="quantity-value">${item.cantidad}</span>
-            <button class="quantity-btn" onclick="updateQuantity('${item.nombre}', 1)">+</button>
-          </div>
-          <div>$${item.subtotal.toFixed(2)}</div>
-          <button onclick="removeAllItems('${item.nombre}')">Eliminar</button>
-        </div>
-      `;
-      items.appendChild(div);
-    });
-    
-    total.textContent = suma.toFixed(2);
-    badge.textContent = totalItems;
-    badge.style.display = totalItems > 0 ? 'flex' : 'none';
-  }
-
-  function updateQuantity(nombre, change) {
-    if (change === -1 && groupedCart[nombre].cantidad === 1) {
-      removeAllItems(nombre);
-      return;
-    }
-    
-    if (change === 1) {
-      // Añade uno más
-      const producto = productos.find(p => p.nombre === nombre);
-      if (producto) {
-        cart.push({ nombre: producto.nombre, precio: producto.precio });
-      }
+    if (response.ok) {
+      alert("Registro exitoso ✅");
     } else {
-      // Elimina uno
-      const index = cart.findIndex(item => item.nombre === nombre);
-      if (index !== -1) {
-        cart.splice(index, 1);
-      }
+      alert("Error: " + data.error);
     }
-    
-    updateCart();
-    saveCart();
-  }
 
-  function removeAllItems(nombre) {
-    cart = cart.filter(item => item.nombre !== nombre);
-    updateCart();
-    saveCart();
+  } catch (error) {
+    alert("No se pudo conectar al servidor.");
   }
+}
 
-  function checkout() {
-    document.getElementById('procesando').style.display = 'block';
-    setTimeout(() => {
-      document.getElementById('procesando').style.display = 'none';
-      alert('Gracias por tu compra. Métodos de pago aceptados:\n- Tarjeta\n- PayPal\n- Transferencia');
-      vaciarCarrito();
-    }, 5000);
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const toggleIcon = document.getElementById("togglePassword");
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.src = "Ojoa1.PNG";
+  } else {
+    passwordInput.type = "password";
+    toggleIcon.src = "Ojoc2.PNG";
   }
-
-  function vaciarCarrito() {
-    const cartItems = document.getElementById('cart-items');
-    cartItems.style.transition = 'all 0.3s';
-    cartItems.style.opacity = '0';
-    cartItems.style.transform = 'translateX(100px)';
-    
-    setTimeout(() => {
-      cart = [];
-      updateCart();
-      saveCart();
-      cartItems.style.opacity = '1';
-      cartItems.style.transform = 'translateX(0)';
-    }, 300);
-  }
-
-  function saveCart() {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }
-
-  function filtrarProductos() {
-    const texto = document.getElementById('buscarProducto').value.toLowerCase();
-    const productosFiltrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
-    const lista = document.getElementById('product-list');
-    lista.innerHTML = '';
-    productosFiltrados.forEach((producto, index) => {
-      const div = document.createElement('div');
-      div.className = 'product';
-      
-      const stars = generateStars(producto.rating);
-      
-      div.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}">
-        <h3>${producto.nombre}</h3>
-        <div class="rating">
-          ${stars}
-          <span class="rating-value">(${producto.rating.toFixed(1)}) ${producto.reviews} reseñas</span>
-        </div>
-        <p>$${producto.precio.toFixed(2)}</p>
-        <button onclick="addToCart('${producto.nombre}', ${producto.precio})">Añadir al carrito</button>
-      `;
-      lista.appendChild(div);
-    });
-  }
-
-  // Inicializar la tienda al cargar la página
-  document.addEventListener('DOMContentLoaded', function() {
-    renderizarProductos();
-    updateCart();
-  });
+}
 </script>
 
 </body>
