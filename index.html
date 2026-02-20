@@ -42,7 +42,7 @@
 
     .tabs button {
       width: 48%;
-      padding: 10px;
+      padding: 12px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -66,7 +66,7 @@
       margin-bottom: 20px;
     }
 
-    input[type="email"], input[type="password"] {
+    input[type="email"], .password-container input {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
@@ -163,7 +163,7 @@
 
   <div class="modal">
     <img class="logo" src="A KIDPHONE2.0.png" alt="Logo Kidphone" />
-    
+
     <div class="tabs">
       <button id="btnLogin" class="active" onclick="cambiarModo('login')">Iniciar Sesión</button>
       <button id="btnRegister" onclick="cambiarModo('register')">Registrarse</button>
@@ -178,7 +178,7 @@
       <img src="Ojoc2.PNG" id="togglePassword" onclick="togglePassword()" />
     </div>
 
-    <!-- 🔹 Solo un botón para login/registro -->
+    <!-- Solo un botón Continuar debajo del logo (hereda login/registro) -->
     <button class="btn-primary" onclick="acceder()">Continuar</button>
 
     <div class="divider"></div>
@@ -191,13 +191,16 @@
     </div>
 
     <div class="location">🌍 Localización: <strong>Panamá</strong></div>
-    <div class="terms">Al continuar aceptas nuestros términos.</div>
+
+    <div class="terms">
+      Al continuar aceptas nuestros términos.
+    </div>
   </div>
 
 <script>
 let modo = "login";
 
-// 🚀 Verificar sesión al cargar la página
+// Verificar sesión al cargar la página
 window.onload = function() {
   const usuario = localStorage.getItem("usuario");
   if (usuario) {
@@ -220,6 +223,7 @@ function cambiarModo(nuevoModo) {
   }
 }
 
+// Función que maneja login o registro según el modo activo
 async function acceder() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
@@ -237,7 +241,11 @@ async function acceder() {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Usuario Web", email, password })
+        body: JSON.stringify({
+          name: "Usuario Web",
+          email: email,
+          password: password
+        })
       }
     );
 
@@ -247,7 +255,7 @@ async function acceder() {
       if (modo === "login") {
         localStorage.setItem("usuario", JSON.stringify(data.user));
         alert("Bienvenido " + data.user.name + " 🚀");
-        window.location.href = "dashboard.html"; // 🔹 Redirección automática
+        window.location.href = "dashboard.html"; // Redirige automáticamente
       } else {
         alert(data.message || "Registro exitoso ✅");
       }
