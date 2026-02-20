@@ -1,0 +1,1185 @@
+# Código HTML Combinado con Estilo Visual Unificado
+
+He combinado ambos códigos manteniendo el esquema de colores y degradados del segundo (modal de login) y aplicándolo al primero (página de producto). Aquí está el resultado:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartphone Premium - Tienda de Teléfonos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --main-color: #1a1a1a;
+            --secondary-color: #333;
+            --light-bg: #f7f7f7;
+            --dark-text: #000;
+            --light-text: #fff;
+            --deep-blue: #1a1a1a;
+            --red: #e30613;
+            --gray-light: #c0c0c0;
+            --gray-medium: #999;
+            --gray-dark: #555;
+            --white: #ffffff;
+            --gradient-bg: linear-gradient(to bottom right, #ffffff, #c0c0c0);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background-color: var(--main-color);
+            color: var(--dark-text);
+        }
+        
+        .top-bar {
+            background: var(--gradient-bg);
+            color: var(--dark-text);
+            padding: 8px 0;
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.5;
+            border-bottom: 1px solid var(--gray-medium);
+        }
+        
+        /* Estilos para la barra interactiva actualizada */
+        .interactive-bar {
+            background: var(--gradient-bg);
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-medium);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .interactive-menu {
+            display: flex;
+            list-style: none;
+            margin-left: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .interactive-menu li {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--dark-text);
+            text-transform: uppercase;
+            font-size: 14px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-menu li:hover {
+            color: var(--red);
+            transform: translateY(-3px);
+        }
+        
+        .interactive-menu li::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            bottom: 5px;
+            left: 15px;
+            transition: width 0.3s ease;
+        }
+        
+        .interactive-menu li:hover::after {
+            width: calc(100% - 30px);
+        }
+        
+        .social-login {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-right: 20px;
+        }
+        
+        .social-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--dark-text);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+        
+        .login-btn {
+            background-color: var(--dark-text);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .login-btn:hover {
+            background-color: var(--red);
+            transform: translateY(-2px);
+        }
+
+        /* Nueva barra de categorías */
+        .categories-bar {
+            background: var(--gradient-bg);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--gray-medium);
+        }
+        
+        .categories-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+        
+        .categories-title {
+            color: var(--dark-text);
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+        
+        .pre-sale-tag {
+            background-color: var(--red);
+            color: var(--white);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        .categories-menu {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+            padding: 5px 0;
+            flex-grow: 1;
+        }
+        
+        .categories-menu::-webkit-scrollbar {
+            height: 5px;
+        }
+        
+        .categories-menu::-webkit-scrollbar-thumb {
+            background-color: var(--red);
+            border-radius: 10px;
+        }
+        
+        .categories-menu li {
+            color: var(--dark-text);
+            padding: 8px 15px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .categories-menu li:hover {
+            color: var(--red);
+            transform: translateY(-2px);
+        }
+        
+        .categories-menu li::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--red);
+            bottom: 0;
+            left: 15px;
+            transition: width 0.3s ease;
+        }
+        
+        .categories-menu li:hover::after {
+            width: calc(100% - 30px);
+        }
+        
+        .header {
+            background: var(--gradient-bg);
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--gray-medium);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--gradient-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .product-container {
+            display: flex;
+            margin: 30px 0;
+            gap: 30px;
+        }
+        
+        .product-gallery {
+            flex: 1;
+        }
+        
+        .main-image-container {
+            background-color: var(--white);
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+            border-radius: 8px;
+            border: 1px solid var(--gray-medium);
+        }
+        
+        .main-image {
+            max-width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background-color: var(--light-bg);
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .thumbnail {
+            width: 70px;
+            height: 70px;
+            background-color: var(--white);
+            border: 1px solid var(--gray-medium);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .thumbnail img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-title {
+            color: var(--dark-text);
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .product-subtitle {
+            color: var(--dark-text);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .price-container {
+            margin: 20px 0;
+        }
+        
+        .price {
+            font-size: 28px;
+            color: var(--dark-text);
+            font-weight: bold;
+        }
+        
+        .discount {
+            text-decoration: line-through;
+            color: var(--gray-dark);
+            margin-left: 10px;
+            font-size: 18px;
+        }
+        
+        .buy-button {
+            background-color: var(--dark-text);
+            color: var(--light-text);
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .buy-button:hover {
+            background-color: var(--red);
+            transform: translateY(-2px);
+        }
+        
+        .benefits {
+            margin: 25px 0;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .benefit-icon {
+            color: var(--red);
+            margin-right: 10px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-medium);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .tab.active {
+            font-weight: bold;
+        }
+        
+        .tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--red);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .specs-table tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+        
+        .specs-table td {
+            padding: 12px 15px;
+            border: 1px solid var(--gray-medium);
+        }
+        
+        .specs-table td:first-child {
+            font-weight: bold;
+            width: 30%;
+        }
+        
+        .related-products {
+            margin: 50px 0;
+        }
+        
+        .section-title {
+            color: var(--dark-text);
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--red);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .product-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray-medium);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .product-card-image {
+            height: 200px;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .product-card-info {
+            padding: 15px;
+        }
+        
+        .product-card-title {
+            font-size: 16px;
+            color: var(--dark-text);
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-card-price {
+            color: var(--dark-text);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .product-card-old-price {
+            text-decoration: line-through;
+            color: var(--gray-dark);
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        
+        .footer {
+            background: var(--gradient-bg);
+            color: var(--dark-text);
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            font-size: 14px;
+            border-top: 1px solid var(--gray-medium);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            padding: 0 15px;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: var(--dark-text);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--red);
+            text-decoration: underline;
+        }
+        
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-medium);
+        }
+        
+        /* Estilos para el modal de login */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: var(--gradient-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+        
+        .modal img.logo {
+            width: 325px;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .modal h2 {
+            margin: 10px 0;
+            font-size: 22px;
+            color: var(--dark-text);
+        }
+        
+        .info-protected {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 20px;
+            background: var(--gradient-bg);
+            color: var(--dark-text);
+            font-weight: 500;
+            margin-bottom: 20px;
+            border: 1px solid var(--gray-medium);
+        }
+        
+        .modal input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--gray-medium);
+            border-radius: 8px;
+            background-color: var(--white);
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        
+        .password-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .password-container input {
+            width: 100%;
+            padding: 12px 40px 12px 12px;
+            border: 1px solid var(--gray-medium);
+            border-radius: 8px;
+            background-color: var(--white);
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        
+        .password-container img {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: var(--dark-text);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: var(--red);
+            transform: translateY(-2px);
+        }
+        
+        .link {
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        
+        .link a {
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .link a:hover {
+            color: var(--red);
+        }
+        
+        .divider {
+            margin: 20px 0;
+            border-top: 1px solid var(--gray-medium);
+            position: relative;
+        }
+        
+        .divider::after {
+            content: "Registro Rápido Con";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-bg);
+            padding: 0 10px;
+            font-size: 12px;
+            color: var(--dark-text);
+            border-radius: 20px;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+        
+        .social-icons img {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .social-icons img:hover {
+            transform: scale(1.1);
+        }
+        
+        .location {
+            font-size: 12px;
+            color: var(--dark-text);
+            margin-top: 20px;
+        }
+        
+        .terms {
+            font-size: 11px;
+            color: var(--gray-dark);
+            margin-top: 10px;
+        }
+        
+        .terms a {
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .terms a:hover {
+            color: var(--red);
+        }
+        
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--dark-text);
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: var(--red);
+        }
+        
+        @media (max-width: 992px) {
+            .product-container {
+                flex-direction: column;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-content {
+                flex-wrap: wrap;
+            }
+            
+            .footer-column {
+                flex: 0 0 50%;
+                margin-bottom: 20px;
+            }
+            
+            .interactive-bar {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .interactive-menu {
+                margin: 10px 0;
+                justify-content: center;
+            }
+            
+            .social-login {
+                margin: 10px 0;
+            }
+            
+            .categories-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .categories-title {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .interactive-menu li {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            
+            .social-icon {
+                width: 25px;
+                height: 25px;
+                font-size: 12px;
+            }
+            
+            .login-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .categories-menu li {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            
+            .categories-title {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-column {
+                flex: 0 0 100%;
+            }
+            
+            .interactive-menu {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .interactive-menu li {
+                padding: 5px 0;
+            }
+            
+            .categories-title {
+                font-size: 16px;
+            }
+            
+            .pre-sale-tag {
+                font-size: 12px;
+                padding: 2px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div style="text-align: center;">
+            <p>☀️😎 ¡Nueva primavera, Nuevo celular!</p>
+            <p>25% de descuento en todo el sitio ingresando el código de cupón:</p>
+            <h2>SPRING25</h2>
+            <p>Envío gratis + regalo con cada compra | ¡Ordene ahora!</p>
+            <p>Envío gratis en pedidos superiores a $250 | Garantía de 1 año en todos nuestros teléfonos</p>
+        </div>
+    </div>
+
+    <!-- Barra interactiva actualizada -->
+    <div class="interactive-bar">
+        <ul class="interactive-menu">
+            <li>VENTA AL MAYOR</li>
+            <li>VALES DE REGALO PARA EMPLEADOS</li>
+            <li>OPINIÓN</li>
+            <li>PREGUNTAS Y RESPUESTAS</li>
+            <li>ACERCA DE</li>
+        </ul>
+        
+        <div class="social-login">
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            </div>
+            
+            <button class="login-btn" onclick="document.getElementById('loginModal').style.display='flex'">
+                <i class="fas fa-user"></i> Iniciar sesión/Registrarse
+            </button>
+        </div>
+    </div>
+
+    <!-- Nueva barra de categorías -->
+    <div class="categories-bar">
+        <div class="categories-container">
+            <div class="categories-title">
+                ORLANDO <span class="pre-sale-tag">PREVENTA</span>
+            </div>
+            <ul class="categories-menu">
+                <li>TARJETA DE REGALO</li>
+                <li>JOYAS DE LA ESTRELLA 2º DE DAVID</li>
+                <li>LOS MÁS VENDIDOS</li>
+                <li>RELOJES INTELIGENTES</li>
+            </ul>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <h1>Kidphone</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="product-container">
+            <div class="product-gallery">
+                <div class="main-image-container">
+                    <img src="imagenes/Iphone 11.jpg" alt="Iphone 11" class="main-image" id="mainImage">
+                </div>
+                <div class="thumbnail-container">
+                    <div class="thumbnail" onclick="changeImage('placeholder-smartphone.jpg')">
+                        <img src="placeholder-smartphone.jpg" alt="Vista frontal">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('imagenes/iPhone 11.jpeg')">
+                        <img src="imagenes/iPhone_11.jpeg" alt="Vista frontal">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('placeholder-smartphone-back.jpg')">
+                        <img src="placeholder-smartphone-back.jpg" alt="Vista trasera">
+                    </div>
+                    <div class="thumbnail" onclick="changeImage('placeholder-smartphone-box.jpg')">
+                        <img src="placeholder-smartphone-box.jpg" alt="Caja del producto">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-info">
+                <h1 class="product-title">Iphone 11</h1>
+                <h2 class="product-subtitle">64GB - Negro</h2>
+                
+                <div class="price-container">
+                    <span class="price">$195.99</span>
+                    <span class="discount">$224.99</span>
+                </div>
+                
+                <button class="buy-button">
+                    <i class="fas fa-shopping-cart"></i> COMPRAR AHORA!
+                </button>
+                
+                <div class="benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fas fa-shield-alt"></i></span>
+                        <span>Garantía premium de 6 meses</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fas fa-truck"></i></span>
+                        <span>Envío express gratuito (4-5 días)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fas fa-undo"></i></span>
+                        <span>Devolución fácil 30 días</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fas fa-certificate"></i></span>
+                        <span>Certificado de autenticidad incluido</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon"><i class="fas fa-gift"></i></span>
+                        <span>Regalo exclusivo con tu compra</span>
+                    </div>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(0)">Descripción</div>
+                    <div class="tab" onclick="switchTab(1)">Especificaciones</div>
+                    <div class="tab" onclick="switchTab(2)">Reseñas</div>
+                </div>
+                
+                <div class="tab-content active" id="tabContent0">
+                    <p>El iPhone 11 es un teléfono inteligente de gama alta desarrollado por Apple Inc. Este modelo combina un diseño elegante con un rendimiento excepcional, ofreciendo una experiencia de usuario premium.
+
+
+
+Características destacadas:
+
+Pantalla Liquid Retina HD de 6.1 pulgadas
+Sistema de cámara dual de 12 MP con ultra gran angular
+Resistencia al agua y al polvo (IP68)
+Batería con hasta 17 horas de reproducción de vídeo
+Chip A13 Bionic para un rendimiento sin igual</p>
+                    <p><br></p>
+                    <p>Características destacadas:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Procesador Snapdragon 8 Gen 2 con 12GB RAM</li>
+                        <li>Almacenamiento ultrarrápido UFS 4.0 de 512GB</li>
+                        <li>Sistema de cámara cuádruple con sensor principal de 200MP</li>
+                        <li>Batería de 5000mAh con carga rápida de 100W</li>
+                        <li>Diseño premium en titanio con certificación IP68</li>
+                    </ul>
+                    <p><br></p>
+                    <p>Incluye accesorios premium: auriculares inalámbricos, funda de cuero genuino y cargador rápido de 100W.</p>
+                </div>
+                
+                <div class="tab-content" id="tabContent1">
+                    <table class="specs-table">
+                        <tr>
+                            <td>Pantalla</td>
+                            <td>IPS LCD 6,1"1792 x 828 px, 19.5:9 True-tone</td>
+                        </tr>
+                        <tr>
+                            <td>Procesador</td>
+                            <td>Apple A13 Bionic, 7nm+ NPU Neural Engine de 3ª gen</td>
+                        </tr>
+                        <tr>
+                            <td>Ram</td>
+                            <td>4 GB</td>
+                        </tr>
+                        <tr>
+                            <td>Almacenamiento</td>
+                            <td>64</td>
+                        </tr>
+                        <tr>
+                            <td>Software</td>
+                            <td>iOS 13</td>
+                        </tr>
+                        <tr>
+                            <td>Cámara Principal</td>
+                            <td>Principal: 12MP, f/1.8, 26mm, OIS, QuadLED flash 
+                                Secundaria gran angular: 12MP, f/2.4, 13mm, 120º 
+                                Vídeo: 4K/60fps, 1080p/240fps, HDR</td>
+                        </tr>
+                        <tr>
+                            <td>Cámara Frontal</td>
+                            <td>12MP, f/2.2, TOF 3D, slow-motion</td>
+                        </tr>
+                        <tr>
+                            <td>Batería</td>
+                            <td>3110 mAh, Con carga rápida 18W (cargador no incluido) Carga inalámbrica Qi</td>
+                        </tr>
+                        <tr>
+                            <td>Conectividad</td>
+                            <td>5G, WiFi 6, Bluetooth 5.0, NFC</td>
+                        </tr>
+                        <tr>
+                            <td>Resistencia</td>
+                            <td>IP68 (agua y polvo)</td>
+                        </tr>
+                        <tr>
+                            <td>Dimensiones</td>
+                            <td>150,9 x 75,7 x 8,3 mm; 194 g</td>
+                        </tr>                         
+                        <tr>
+                            <td>Otros</td>
+                            <td>GPS, dualSIM, eSIM, altavoces estéreo Dolby Atmos, reconocimiento facial</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="tab-content" id="tabContent2">
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <div style="color: gold; font-size: 18px;">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span style="margin-left: 10px; font-weight: bold;">5.0/5.0</span>
+                        </div>
+                        <p>"El mejor teléfono que he tenido. La pantalla es increíble y la batería dura más de un día con uso intensivo. Vale cada centavo."</p>
+                        <p style="font-style: italic; margin-top: 5px;">- Carlos M., comprobado</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <div style="color: gold; font-size: 18px;">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span style="margin-left: 10px; font-weight: bold;">5.0/5.0</span>
+                        </div>
+                        <p>"Las fotos con este teléfono parecen tomadas con una cámara profesional. El rendimiento es excepcional, ningún juego o app se traba."</p>
+                        <p style="font-style: italic; margin-top: 5px;">- Ana L., comprobado</p>
+                    </div>
+                    
+                    <button style="background: none; border: 1px solid var(--dark-text); color: var(--dark-text); padding: 8px 15px; border-radius: 4px; cursor: pointer; transition: all 0.3s ease;">
+                        Escribir una reseña
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="related-products">
+            <h2 class="section-title">TELÉFONOS RELACIONADOS</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="related-phone1.jpg" alt="Smartphone Pro XZ-1800" style="max-width: 90%; max-height: 90%;">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">Smartphone Pro XZ-1800 - 256GB</h3>
+                        <div>
+                            <span class="product-card-price">$999.00</span>
+                            <span class="product-card-old-price">$1,199.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="related-phone2.jpg" alt="Edición Diamante" style="max-width: 90%; max-height: 90%;">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">Edición Diamante - 1TB Oro</h3>
+                        <div>
+                            <span class="product-card-price">$2,499.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="related-phone3.jpg" alt="Ultra Compact" style="max-width: 90%; max-height: 90%;">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">Ultra Compact Z-900 - 128GB</h3>
+                        <div>
+                            <span class="product-card-price">$849.00</span>
+                            <span class="product-card-old-price">$999.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="related-phone4.jpg" alt="Gaming Phone" style="max-width: 90%; max-height: 90%;">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">Gaming Phone GT-3000 - 512GB</h3>
+                        <div>
+                            <span class="product-card-price">$1,199.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>TiendaPremiumTeléfonos</h3>
+                <p>La mejor selección de teléfonos premium con garantía oficial y servicio exclusivo.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Enlaces útiles</h3>
+                <ul>
+                    <li><a href="#">Sobre nosotros</a></li>
+                    <li><a href="#">Política de privacidad</a></li>
+                    <li><a href="#">Términos y condiciones</a></li>
+                    <li><a href="#">Garantías</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +507 6270-6536</li>
+                    <li><i class="fas fa-envelope"></i> info@tiendapremium.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Ciudad de Panamá, Panamá</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 TiendaPremiumDeTeléfonos - Todos los derechos reservados
+        </div>
+    </footer>
+
+    <script>
+        // Cambiar imagen principal al hacer clic en miniaturas
+        function changeImage(src) {
+            document.getElementById('mainImage').src = src;
+        }
+        
+        // Cambiar pestañas
+        function switchTab(index) {
+            // Ocultar todos los contenidos y desactivar pestañas
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar contenido seleccionado y activar pestaña
+            document.getElementById('tabContent' + index).classList.add('active');
+            document.querySelectorAll('.tab')[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>
