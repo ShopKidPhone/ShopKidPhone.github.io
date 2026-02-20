@@ -196,7 +196,7 @@ async function acceder() {
   }
 
   try {
-    const response = await fetch("http://localhost:5000/register", {
+    const response = await fetch("https://commissarial-jerome-phenomenologically.ngrok-free.dev/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -211,12 +211,13 @@ async function acceder() {
     const data = await response.json();
 
     if (response.ok) {
-      alert("Registro exitoso ✅");
+      alert(data.message || "Registro exitoso ✅");
     } else {
-      alert("Error: " + data.error);
+      alert("Error: " + (data.error || "Error desconocido"));
     }
 
   } catch (error) {
+    console.error(error);
     alert("No se pudo conectar al servidor.");
   }
 }
