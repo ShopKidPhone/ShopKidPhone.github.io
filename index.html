@@ -34,12 +34,6 @@
       margin-bottom: 10px;
     }
 
-    .modal h2 {
-      margin: 10px 0;
-      font-size: 22px;
-      color: #000;
-    }
-
     .tabs {
       display: flex;
       justify-content: space-between;
@@ -72,7 +66,7 @@
       margin-bottom: 20px;
     }
 
-    input[type="email"] {
+    input[type="email"], input[type="password"] {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
@@ -87,16 +81,6 @@
       position: relative;
       width: 100%;
       margin-bottom: 15px;
-    }
-
-    .password-container input {
-      width: 100%;
-      padding: 12px 40px 12px 12px;
-      border: 1px solid #999;
-      border-radius: 8px;
-      background-color: #f7f7f7;
-      font-size: 15px;
-      box-sizing: border-box;
     }
 
     .password-container img {
@@ -179,10 +163,12 @@
 
   <div class="modal">
     <img class="logo" src="A KIDPHONE2.0.png" alt="Logo Kidphone" />
+    
     <div class="tabs">
       <button id="btnLogin" class="active" onclick="cambiarModo('login')">Iniciar Sesión</button>
       <button id="btnRegister" onclick="cambiarModo('register')">Registrarse</button>
     </div>
+
     <div class="info-protected">Con Protección De Datos ✔</div>
 
     <input type="email" id="email" placeholder="Email o Número de teléfono" required />
@@ -192,7 +178,7 @@
       <img src="Ojoc2.PNG" id="togglePassword" onclick="togglePassword()" />
     </div>
 
-    <button class="btn-primary" onclick="loginUser()">Iniciar Sesión</button>
+    <!-- 🔹 Solo un botón para login/registro -->
     <button class="btn-primary" onclick="acceder()">Continuar</button>
 
     <div class="divider"></div>
@@ -205,10 +191,7 @@
     </div>
 
     <div class="location">🌍 Localización: <strong>Panamá</strong></div>
-
-    <div class="terms">
-      Al continuar aceptas nuestros términos.
-    </div>
+    <div class="terms">Al continuar aceptas nuestros términos.</div>
   </div>
 
 <script>
@@ -254,18 +237,13 @@ async function acceder() {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: "Usuario Web",
-          email: email,
-          password: password
-        })
+        body: JSON.stringify({ name: "Usuario Web", email, password })
       }
     );
 
     const data = await response.json();
 
     if (response.ok) {
-      // 🔐 Guardar sesión SOLO si es login y redirigir
       if (modo === "login") {
         localStorage.setItem("usuario", JSON.stringify(data.user));
         alert("Bienvenido " + data.user.name + " 🚀");
@@ -292,41 +270,6 @@ function togglePassword() {
   } else {
     passwordInput.type = "password";
     toggleIcon.src = "Ojoc2.PNG";
-  }
-}
-
-// Función de login adicional (si usas botones separados)
-async function loginUser() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!email || !password) {
-    alert("Por favor, completa todos los campos.");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `https://commissarial-jerome-phenomenologically.ngrok-free.dev/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      localStorage.setItem("usuario", JSON.stringify(data.user));
-      alert("¡Bienvenido " + data.user.name + "! 🚀");
-      window.location.href = "dashboard.html"; // 🔹 Redirección automática
-    } else {
-      alert(data.error || "Error en login");
-    }
-  } catch (error) {
-    console.error(error);
-    alert("Error en el servidor, intenta más tarde.");
   }
 }
 </script>
