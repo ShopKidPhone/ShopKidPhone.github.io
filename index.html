@@ -34,6 +34,12 @@
       margin-bottom: 10px;
     }
 
+    .modal h2 {
+      margin: 10px 0;
+      font-size: 22px;
+      color: #000;
+    }
+
     .tabs {
       display: flex;
       justify-content: space-between;
@@ -66,7 +72,7 @@
       margin-bottom: 20px;
     }
 
-    input[type="email"], .password-container input {
+    input[type="email"] {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
@@ -81,6 +87,16 @@
       position: relative;
       width: 100%;
       margin-bottom: 15px;
+    }
+
+    .password-container input {
+      width: 100%;
+      padding: 12px 40px 12px 12px;
+      border: 1px solid #999;
+      border-radius: 8px;
+      background-color: #f7f7f7;
+      font-size: 15px;
+      box-sizing: border-box;
     }
 
     .password-container img {
@@ -176,7 +192,7 @@
       <img src="Ojoc2.PNG" id="togglePassword" onclick="togglePassword()" />
     </div>
 
-    <!-- Solo un botón principal, usa "acceder" para login y registro -->
+    <button class="btn-primary" onclick="loginUser()">Iniciar Sesión</button>
     <button class="btn-primary" onclick="acceder()">Continuar</button>
 
     <div class="divider"></div>
@@ -198,7 +214,15 @@
 <script>
 let modo = "login";
 
-// 🚀 Función para cambiar entre login y registro
+// 🚀 Verificar sesión al cargar la página
+window.onload = function() {
+  const usuario = localStorage.getItem("usuario");
+  if (usuario) {
+    const datos = JSON.parse(usuario);
+    alert("Ya tienes sesión activa como " + datos.name + " 🔐");
+  }
+};
+
 function cambiarModo(nuevoModo) {
   modo = nuevoModo;
   const btnLogin = document.getElementById("btnLogin");
@@ -213,21 +237,6 @@ function cambiarModo(nuevoModo) {
   }
 }
 
-// 🚀 Función toggle de mostrar/ocultar contraseña
-function togglePassword() {
-  const passwordInput = document.getElementById("password");
-  const toggleIcon = document.getElementById("togglePassword");
-
-  if (passwordInput.type === "password") {
-    passwordInput.type = "text";
-    toggleIcon.src = "Ojoa1.PNG";
-  } else {
-    passwordInput.type = "password";
-    toggleIcon.src = "Ojoc2.PNG";
-  }
-}
-
-// 🚀 Función de login o registro
 async function acceder() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
@@ -245,37 +254,81 @@ async function acceder() {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Usuario Web", email, password })
+        body: JSON.stringify({
+          name: "Usuario Web",
+          email: email,
+          password: password
+        })
       }
     );
 
     const data = await response.json();
 
     if (response.ok) {
+      // 🔐 Guardar sesión SOLO si es login y redirigir
       if (modo === "login") {
         localStorage.setItem("usuario", JSON.stringify(data.user));
         alert("Bienvenido " + data.user.name + " 🚀");
+        window.location.href = "dashboard.html"; // 🔹 Redirección automática
       } else {
         alert(data.message || "Registro exitoso ✅");
       }
     } else {
       alert("Error: " + (data.error || "Error desconocido"));
     }
-
   } catch (error) {
     console.error(error);
     alert("No se pudo conectar al servidor.");
   }
 }
 
-// 🚀 Verificar sesión activa al cargar la página
-window.onload = function() {
-  const usuario = localStorage.getItem("usuario");
-  if (usuario) {
-    const datos = JSON.parse(usuario);
-    alert("Ya tienes sesión activa como " + datos.name + " 🔐");
+function togglePassword() {
+  const passwordInput = document.getElementById("password");
+  const toggleIcon = document.getElementById("togglePassword");
+
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.src = "Ojoa1.PNG";
+  } else {
+    passwordInput.type = "password";
+    toggleIcon.src = "Ojoc2.PNG";
   }
-};
+}
+
+// Función de login adicional (si usas botones separados)
+async function loginUser() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    alert("Por favor, completa todos los campos.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `https://commissarial-jerome-phenomenologically.ngrok-free.dev/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem("usuario", JSON.stringify(data.user));
+      alert("¡Bienvenido " + data.user.name + "! 🚀");
+      window.location.href = "dashboard.html"; // 🔹 Redirección automática
+    } else {
+      alert(data.error || "Error en login");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Error en el servidor, intenta más tarde.");
+  }
+}
 </script>
 
 </body>
