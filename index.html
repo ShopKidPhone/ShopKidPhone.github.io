@@ -200,12 +200,36 @@
 <script>
 let modo = "login";
 
-// Verificar sesión al cargar la página
-window.onload = function() {
+// Verificar sesión al cargar la página y redirigir automáticamente
+window.onload = async function() {
+  const token = localStorage.getItem("token");
   const usuario = localStorage.getItem("usuario");
-  if (usuario) {
-    const datos = JSON.parse(usuario);
-    alert("Ya tienes sesión activa como " + datos.name + " 🔐");
+
+  if (token && usuario) {
+    try {
+      // Verificar token con el backend
+      const response = await fetch(
+        "https://commissarial-jerome-phenomenologically.ngrok-free.dev/dashboard",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.ok) {
+        // Token válido → redirigir al dashboard
+        window.location.href = "dashboard.html";
+      } else {
+        // Token inválido → limpiar storage
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+      }
+    } catch (err) {
+      console.error("Error verificando token:", err);
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+    }
   }
 };
 
@@ -253,9 +277,11 @@ async function acceder() {
 
     if (response.ok) {
       if (modo === "login") {
+        // 🔑 Guardar token JWT
+        localStorage.setItem("token", data.token);
         localStorage.setItem("usuario", JSON.stringify(data.user));
-        alert("Bienvenido " + data.user.name + " 🚀");
-        window.location.href = "dashboard.html"; // Redirige automáticamente
+        // Redirigir automáticamente al dashboard
+        window.location.href = "dashboard.html";
       } else {
         alert(data.message || "Registro exitoso ✅");
       }
@@ -265,6 +291,37 @@ async function acceder() {
   } catch (error) {
     console.error(error);
     alert("No se pudo conectar al servidor.");
+  }
+}
+
+// Función para acceder a rutas protegidas usando el token
+async function accederDashboard() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("No tienes token, inicia sesión primero.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "https://commissarial-jerome-phenomenologically.ngrok-free.dev/dashboard",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    const data = await response.json();
+    if (response.ok) {
+      console.log("Dashboard:", data);
+      alert("Bienvenido al dashboard 🔐");
+    } else {
+      alert("Error: " + (data.error || "Token inválido"));
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error al conectar con el servidor.");
   }
 }
 
