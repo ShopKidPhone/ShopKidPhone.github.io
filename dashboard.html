@@ -121,6 +121,56 @@
             transform: scale(1.1);
         }
         
+        /* Botón de perfil */
+        #profileBtn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            background: var(--dark-text);
+            color: var(--white);
+            font-weight: bold;
+        }
+
+        #profileBtn img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #dropdownMenu {
+            display: none;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            min-width: 150px;
+            z-index: 100;
+        }
+
+        #dropdownMenu button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        #dropdownMenu button:hover {
+            background-color: var(--light-bg);
+        }
+
+        #dropdownMenu .cerrar {
+            color: red;
+        }
+        
         .login-btn {
             background-color: var(--dark-text);
             color: var(--white);
@@ -859,12 +909,19 @@
                 <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
             </div>
-            
-            <button class="login-btn" onclick="document.getElementById('loginModal').style.display='flex'">
-                <i class="fas fa-user"></i> Iniciar sesión/Registrarse
-            </button>
         </div>
-    </div>
+            <!-- Botón de perfil y dropdown -->
+            <div style="position: relative;">
+                <button id="profileBtn" onclick="toggleDropdown()">
+                  <img id="profilePic" src="default-avatar.png" alt="Avatar">
+                  <span id="profileName">Usuario</span>
+                </button>
+                <div id="dropdownMenu">
+                  <button onclick="editarPerfil()">Editar perfil</button>
+                  <button class="cerrar" onclick="cerrarSesion()">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
 
     <!-- Nueva barra de categorías -->
     <div class="categories-bar">
@@ -1175,6 +1232,44 @@ Chip A13 Bionic para un rendimiento sin igual</p>
             document.getElementById('tabContent' + index).classList.add('active');
             document.querySelectorAll('.tab')[index].classList.add('active');
         }
+
+        // Mostrar/actualizar datos guardados
+        window.addEventListener('DOMContentLoaded', () => {
+        const name = localStorage.getItem('profileName') || 'Usuario';
+        const avatar = localStorage.getItem('profileAvatar') || 'default-avatar.png';
+        document.getElementById('profileName').textContent = name;
+        document.getElementById('profilePic').src = avatar;
+        });
+
+        // Mostrar/ocultar dropdown
+        function toggleDropdown() {
+        const dropdown = document.getElementById('dropdownMenu');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Editar perfil
+        function editarPerfil(){
+        const name = prompt('Ingresa tu nombre:');
+        const avatar = prompt('URL de tu avatar:');
+        if(name) localStorage.setItem('profileName', name);
+        if(avatar) localStorage.setItem('profileAvatar', avatar);
+        location.reload();
+    }
+
+         // Cerrar sesión
+    function cerrarSesion(){
+        localStorage.clear();
+        location.reload();
+    }
+
+    // Cerrar dropdown si clic fuera
+    window.addEventListener('click', function(e){
+        const dropdown = document.getElementById('dropdownMenu');
+        const btn = document.getElementById('profileBtn');
+        if(!btn.contains(e.target) && !dropdown.contains(e.target)){
+            dropdown.style.display = 'none';
+        }
+    });
     </script>
 </body>
 </html>
